@@ -1,0 +1,771 @@
+% =============================================================================
+% GRADUATION PROJECT THESIS — MASTER FORMATTING FILE v2
+% =============================================================================
+% Based on cross-research of: IEEE, MIT, Stanford, Oxford, Cambridge,
+% APA 7th, Chicago/Turabian, ACM, Springer svmono, Cairo University FCI,
+% Ain Shams Engineering, and Egyptian Supreme Council of Universities.
+%
+% PRIMARY STANDARD: FCI Cairo University (CS graduation project)
+% SECONDARY: MIT/Oxford/Cambridge best practices
+% TABLE STYLE:   APA 7th (3 horizontal rules only, no vertical rules)
+% REFERENCES:    IEEE style (standard for CS departments)
+%
+% Compile with: XeLaTeX or LuaLaTeX
+% Usage: \input{thesis_formatting} in main.tex preamble
+% =============================================================================
+
+% ─── DOCUMENT CLASS ──────────────────────────────────────────────────────────
+% book class: best for multi-chapter theses (front/main/back matter support)
+% 12pt: universal standard (Oxford, Cambridge, APA, Chicago, Cairo Univ)
+% a4paper: international standard (Oxford, Cambridge, Egyptian universities)
+% oneside: standard for single-sided printing
+% openright: chapters start on right-hand (odd) pages — MIT/Oxford standard
+\documentclass[12pt, a4paper, oneside, openright]{report}
+% For two-sided printing (required by some universities), change to:
+% \documentclass[12pt, a4paper, twoside, openright]{report}
+
+% ─── USER CONFIGURATION ─────────────────────────────────────────────────────
+\newcommand{\UniversityNameEN}{Faculty of Computers and Information}
+\newcommand{\UniversityNameAR}{كلية الحاسبات والمعلومات}
+\newcommand{\DepartmentNameEN}{Computer Science Department}
+\newcommand{\DepartmentNameAR}{قسم علوم الحاسب}
+\newcommand{\UniversityFullEN}{Cairo University}
+\newcommand{\ThesisTitle}{Quiz Generation via Knowledge Distillation and Fine-Tuning}
+\newcommand{\AuthorName}{Rehab Hamdy}
+\newcommand{\SupervisorName}{Prof.\ XXX}
+\newcommand{\AcademicYear}{2025--2026}
+
+% ─── PAGE GEOMETRY ───────────────────────────────────────────────────────────
+% FCI Cairo: 3cm left (binding), 2.5cm others
+% Egyptian Supreme Council: 4cm binding side, 2.5cm others
+% MIT/Stanford: 1.5" (38mm) inner for binding
+% Compromise: 3.5cm inner (binding), 2.5cm others — satisfies all standards
+\usepackage[
+  a4paper,
+  top=2.5cm,
+  bottom=2.5cm,
+  inner=3.5cm,                          % binding side (left for English)
+  outer=2.5cm,
+  headheight=14.5pt,
+  headsep=15mm,
+  footskip=20mm,
+  marginparwidth=0pt,
+  marginparsep=0pt
+]{geometry}
+
+% ─── LANGUAGE & ENCODING ─────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}              % UTF-8 input
+\usepackage[T1]{fontenc}                 % T1 font encoding
+\usepackage[english]{babel}              % English hyphenation
+% Add arabic option if bilingual content: \usepackage[english,arabic]{babel}
+
+% ─── FONTS ───────────────────────────────────────────────────────────────────
+% Times New Roman: universal thesis standard (Oxford, Cambridge, APA, Chicago,
+% MIT, Stanford, FCI Cairo, Ain Shams)
+\usepackage{fontspec}                    % XeLaTeX / LuaLaTeX font selection
+\setmainfont{Times New Roman}            % Body serif font — 12pt standard
+\setsansfont{Arial}                      % Sans-serif for captions, headers
+\setmonofont{Courier New}[Scale=0.90]    % Monospace for code — 10~11pt equiv.
+
+% Fallback if TNR not available:
+% \setmainfont{TeX Gyre Termes}         % Free Times clone
+% \setsansfont{TeX Gyre Heros}          % Free Helvetica/Arial clone
+% \setmonofont{TeX Gyre Cursor}         % Free Courier clone
+
+% ─── LINE SPACING ────────────────────────────────────────────────────────────
+% FCI Cairo: 1.5 line spacing
+% Oxford/Cambridge: 1.5 or double
+% APA: double
+% MIT/Stanford: 1.5 or double
+% → 1.5 is the most common for FCI; use \doublespacing if your dept. requires
+\usepackage{setspace}
+\onehalfspacing
+
+% ─── PARAGRAPH FORMATTING ────────────────────────────────────────────────────
+% APA / Chicago / FCI: 0.5" (12.7mm) first-line indent
+% APA: NO extra space between paragraphs
+\usepackage{indentfirst}                 % indent first paragraph after heading
+\setlength{\parindent}{12.7mm}           % 0.5 inch first-line indent
+\setlength{\parskip}{0pt}                % no extra vertical space between paras
+
+% ─── SECTIONAL HEADINGS ─────────────────────────────────────────────────────
+% Heading hierarchy based on APA 7th + FCI Cairo synthesis:
+%   Chapter  → centered, bold, 16pt (FCI standard)
+%   Section  → left-aligned, bold, 14pt (FCI standard)
+%   Subsection → left-aligned, bold, 12pt (FCI standard)
+%   Subsubsection → left-aligned, bold italic, 12pt
+%   Paragraph → indented, bold, run-in, period, 12pt
+\usepackage{titlesec}
+\usepackage{titletoc}
+
+% ---- Chapter (APA L1 equivalent) ----
+% FCI: bold, centered, 16pt
+% Oxford/Cambridge: centered, bold, 14-16pt
+\titleformat{\chapter}[display]
+  {\normalfont\centering\bfseries}
+  {\MakeUppercase{\chaptertitlename}\ \thechapter}
+  {20pt}
+  {\fontsize{16pt}{19.2pt}\selectfont\bfseries}
+\titlespacing*{\chapter}{0pt}{-10pt}{30pt}
+
+% ---- Section (APA L2 equivalent) ----
+% FCI: bold, left-aligned, 14pt
+% APA: Flush Left, Bold, Title Case
+\titleformat{\section}
+  {\normalfont\bfseries\fontsize{14pt}{16.8pt}\selectfont}
+  {\thesection}
+  {1em}
+  {}
+\titlespacing*{\section}{0pt}{18pt plus 4pt minus 2pt}{10pt plus 2pt minus 2pt}
+
+% ---- Subsection (APA L3 equivalent) ----
+% FCI: bold, left-aligned, 12pt
+% APA: Flush Left, Bold Italic, Title Case
+\titleformat{\subsection}
+  {\normalfont\bfseries\fontsize{12pt}{14.4pt}\selectfont}
+  {\thesubsection}
+  {1em}
+  {}
+\titlespacing*{\subsection}{0pt}{14pt plus 4pt minus 2pt}{8pt plus 2pt minus 2pt}
+
+% ---- Subsubsection (APA L4 equivalent) ----
+% APA: Indented, Bold, Title Case, Period., Text continues
+% Chicago: Flush Left, Italic
+\titleformat{\subsubsection}
+  {\normalfont\bfseries\itshape}
+  {\thesubsubsection}
+  {1em}
+  {}
+\titlespacing*{\subsubsection}{0pt}{12pt plus 4pt minus 2pt}{6pt plus 2pt minus 2pt}
+
+% ---- Paragraph (APA L5 equivalent) ----
+% APA: Indented, Bold Italic, Title Case, Period., Text continues
+\titleformat{\paragraph}[runin]
+  {\normalfont\bfseries\itshape}
+  {\theparagraph}
+  {1em}
+  {}
+\titlespacing*{\paragraph}{\parindent}{10pt plus 4pt minus 2pt}{1em plus 2pt minus 2pt}
+
+% ─── TABLE OF CONTENTS FORMATTING ───────────────────────────────────────────
+% Oxford-style: clean, professional dot leaders
+\titlecontents{chapter}
+  [0em]
+  {\bfseries\vspace{6pt}}
+  {\contentslabel{2em}}
+  {\hspace*{2em}}
+  {\titlerule*[8pt]{$\cdot$}\contentspage}
+
+\titlecontents{section}
+  [2em]
+  {}
+  {\contentslabel{2.5em}}
+  {\hspace*{2.5em}}
+  {\titlerule*[8pt]{$\cdot$}\contentspage}
+
+\titlecontents{subsection}
+  [4.5em]
+  {}
+  {\contentslabel{3em}}
+  {\hspace*{3em}}
+  {\titlerule*[8pt]{$\cdot$}\contentspage}
+
+\titlecontents{subsubsection}
+  [7.5em]
+  {\small}
+  {\contentslabel{3.5em}}
+  {\hspace*{3.5em}}
+  {\titlerule*[8pt]{$\cdot$}\contentspage}
+
+% ─── NUMBERING DEPTH ────────────────────────────────────────────────────────
+\setcounter{secnumdepth}{4}              % number up to subsubsection
+\setcounter{tocdepth}{3}                 % show up to subsection in TOC
+                                          % (change to 2 for sections only)
+
+% ─── FIGURE & TABLE NUMBERING ───────────────────────────────────────────────
+% Per-chapter numbering: Fig 3.1, Table 3.2 (MIT, Oxford, FCI standard)
+\usepackage{chngcntr}
+\counterwithin{figure}{chapter}
+\counterwithin{table}{chapter}
+% For continuous numbering (Fig 1, Fig 2, ...), use instead:
+% \counterwithout{figure}{chapter}
+% \counterwithout{table}{chapter}
+
+% ─── PACKAGES — TABLES ──────────────────────────────────────────────────────
+% APA 7th: ONLY 3 horizontal rules — top, header-body separator, bottom
+% NO vertical rules. This is the universal academic standard.
+\usepackage{booktabs}                    % \toprule, \midrule, \bottomrule
+\usepackage{tabularx}                    % flexible-width tables
+\usepackage{longtable}                   % tables spanning multiple pages
+\usepackage{multirow}                    % merged cells vertically
+\usepackage{makecell}                    % line breaks inside cells
+\usepackage{array}                       % extended column types
+\usepackage{colortbl}                    % colored cells (use sparingly)
+
+% ─── PACKAGES — FIGURES ─────────────────────────────────────────────────────
+\usepackage{graphicx}                    % \includegraphics
+\usepackage{float}                       % [H] placement specifier
+\usepackage{subcaption}                  % sub-figures (a), (b), (c)
+\usepackage{wrapfig}                     % text wrapping around figures
+\usepackage{tikz}
+\usetikzlibrary{
+  shapes, arrows, positioning, calc,
+  fit, backgrounds, decorations.pathreplacing,
+  matrix, shadows, patterns
+}
+
+% ─── PACKAGES — CAPTIONS ────────────────────────────────────────────────────
+% Universal standard: Table caption ABOVE, Figure caption BELOW
+% APA: Table title italic, "Note." below table
+\usepackage[
+  font={small},
+  labelfont={bf},
+  labelsep=quad,
+  justification=centerlast,
+  skip=8pt
+]{caption}
+
+% Figure caption: below figure (ALL standards agree)
+\captionsetup[figure]{
+  font={small},
+  labelfont={bf},
+  labelsep=quad,
+  justification=centerlast,
+  skip=6pt,
+  position=bottom
+}
+
+% Table caption: above table (ALL standards agree)
+\captionsetup[table]{
+  font={small},
+  labelfont={bf},
+  labelsep=quad,
+  justification=centerlast,
+  skip=6pt,
+  position=top
+}
+
+% Sub-figure caption
+\captionsetup[subfigure]{
+  font={footnote},
+  labelfont={bf},
+  labelsep=space,
+  justification=centerlast,
+  skip=4pt
+}
+
+% ─── PACKAGES — HEADERS & FOOTERS ───────────────────────────────────────────
+\usepackage{fancyhdr}
+
+% ─── PACKAGES — COLORS ──────────────────────────────────────────────────────
+\usepackage{xcolor}
+\usepackage[table]{xcolor}
+
+% ─── PACKAGES — MATHEMATICS ─────────────────────────────────────────────────
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{bm}
+
+% ─── PACKAGES — ALGORITHMS ──────────────────────────────────────────────────
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{algorithmic}
+
+% ─── PACKAGES — CODE LISTINGS ───────────────────────────────────────────────
+\usepackage{listings}
+
+% ─── PACKAGES — HYPERLINKS ──────────────────────────────────────────────────
+\usepackage[
+  colorlinks=true,
+  linkcolor=ThesisBlue,
+  citecolor=ThesisGreen,
+  urlcolor=ThesisNavy,
+  bookmarks=true,
+  bookmarksopen=true,
+  bookmarksnumbered=true,
+  pdfauthor={\AuthorName},
+  pdftitle={\ThesisTitle}
+]{hyperref}
+
+% ─── PACKAGES — BIBLIOGRAPHY ────────────────────────────────────────────────
+% IEEE style: standard for CS departments (FCI, Ain Shams, MIT EECS)
+\usepackage[backend=biber, style=ieee]{biblatex}
+% \addbibresource{references.bib}        % uncomment and set your .bib file
+
+% ─── PACKAGES — GLOSSARY / ACRONYMS ─────────────────────────────────────────
+\usepackage[acronym, toc]{glossaries}
+% \makeglossaries
+
+% ─── PACKAGES — MISCELLANEOUS ───────────────────────────────────────────────
+\usepackage{enumitem}                    % customized lists
+\usepackage{pifont}                      % ding symbols
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{afterpage}
+\usepackage{emptypage}                   % blank pages have no headers/footers
+\usepackage{appendix}
+\usepackage{pdflscape}                   % landscape pages
+\usepackage{placeins}                    % \FloatBarrier
+\usepackage{siunitx}                     % SI units
+\usepackage{tcolorbox}                   % colored boxes for callouts
+\usepackage{csquotes}                    % proper quoting (required by biblatex)
+
+% ─── COLOR PALETTE ──────────────────────────────────────────────────────────
+% Muted academic colors — professional, not distracting
+% Inspired by Oxford/Cambridge thesis templates
+
+% ---- Primary ----
+\definecolor{ThesisBlue}{RGB}{0, 70, 140}         % headings, links
+\definecolor{ThesisNavy}{RGB}{0, 40, 85}           % deep emphasis
+\definecolor{ThesisGreen}{RGB}{0, 120, 60}         % citations, positive
+\definecolor{ThesisRed}{RGB}{180, 30, 30}           % warnings, negative
+\definecolor{ThesisOrange}{RGB}{210, 105, 0}        % highlights
+
+% ---- Table ----
+\definecolor{TableHeader}{RGB}{0, 70, 140}          % header row background
+\definecolor{TableHeaderText}{RGB}{255, 255, 255}   % header row text
+\definecolor{TableRowA}{RGB}{240, 245, 250}         % alternating row A
+\definecolor{TableRowB}{RGB}{255, 255, 255}         % alternating row B
+
+% ---- Code ----
+\definecolor{CodeBG}{RGB}{248, 248, 248}
+\definecolor{CodeFrame}{RGB}{200, 200, 200}
+\definecolor{CodeKeyword}{RGB}{0, 0, 180}
+\definecolor{CodeString}{RGB}{0, 128, 0}
+\definecolor{CodeComment}{RGB}{128, 128, 128}
+\definecolor{CodeNumber}{RGB}{160, 100, 0}
+
+% ---- Callout Boxes ----
+\definecolor{NoteBoxBG}{RGB}{232, 244, 255}
+\definecolor{NoteBoxFrame}{RGB}{0, 70, 140}
+\definecolor{WarningBoxBG}{RGB}{255, 243, 224}
+\definecolor{WarningBoxFrame}{RGB}{210, 105, 0}
+\definecolor{ImportantBoxBG}{RGB}{255, 232, 232}
+\definecolor{ImportantBoxFrame}{RGB}{180, 30, 30}
+
+% ─── PAGE STYLE — HEADERS & FOOTERS ────────────────────────────────────────
+% Oxford/Cambridge: chapter title left header, page number right
+% APA: page number top right (student paper) or running head + page# (pro)
+% FCI: page number bottom center is common
+% → Using Oxford-style with page number in header
+
+\pagestyle{fancy}
+\fancyhf{}
+
+% ---- Header ----
+\fancyhead[LE,RO]{\small\thepage}                     % page number
+\fancyhead[RE]{\small\itshape\nouppercase{\leftmark}}  % chapter title (even)
+\fancyhead[LO]{}                                       % leave blank (odd)
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ---- Footer ----
+\fancyfoot[C]{}
+\fancyfoot[L]{\tiny\textcolor{gray}{\UniversityNameEN}}
+
+% ---- Chapter-opening pages: no header, page number bottom center ----
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\small\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+% ─── TABLE FORMATTING ───────────────────────────────────────────────────────
+% APA 7th (universally accepted):
+%   - ONLY 3 horizontal rules: \toprule, \midrule, \bottomrule
+%   - NO vertical rules
+%   - Caption ABOVE table
+%   - "Note." line below table (optional)
+% Table text may be smaller (10pt) than body (12pt) — APA, Chicago
+
+\renewcommand{\arraystretch}{1.30}       % row height (APA recommends 1.25-1.35)
+\tabcolsep=8pt                           % column separation
+
+% ---- Custom column types ----
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+% ---- Styled table header command ----
+% Use within booktabs tables for professional APA-style headers
+\newcommand{\thead}[1]{\textbf{#1}}
+
+% ---- Table Note command (APA style) ----
+% Usage: \tablenote{Source: Author's calculations. n = 200.}
+\newcommand{\tablenote}[1]{%
+  \vspace{2pt}%
+  {\small\textit{Note.}\quad #1}%
+}
+
+% ---- Professional table environment ----
+% Usage:
+%   \begin{proftable}{caption}{label}{col spec}
+%     \toprule
+%     \thead{Col 1} & \thead{Col 2} \\
+%     \midrule
+%     data & data \\
+%     \bottomrule
+%   \end{proftable}
+\newenvironment{proftable}[3]{%
+  \begin{table}[H]%
+  \centering%
+  \caption{#1}%
+  \label{#2}%
+  \small%
+  \begin{tabular}{#3}%
+}{%
+  \end{tabular}%
+  \end{table}%
+}
+
+% ---- Long table environment (multi-page) ----
+% Same rules apply: booktabs only, no vertical rules
+\newenvironment{proflongtable}[3]{%
+  \begin{longtable}{#3}%
+  \caption{#1}\label{#2}\\%
+}{%
+  \end{longtable}%
+}
+
+% ─── FIGURE PLACEMENT ───────────────────────────────────────────────────────
+% APA: figures embedded near first mention, not floating far away
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.90}
+
+% ─── LIST FORMATTING ────────────────────────────────────────────────────────
+% APA: bullet lists allowed, no extra spacing between items
+% Chicago: consistent indentation
+
+\setitemize{
+  leftmargin=2em,
+  itemsep=4pt,
+  parsep=2pt,
+  topsep=6pt
+}
+
+\setenumerate{
+  leftmargin=2em,
+  itemsep=4pt,
+  parsep=2pt,
+  topsep=6pt,
+  label=\arabic*.
+}
+
+\setdescription{
+  leftmargin=2em,
+  itemsep=4pt,
+  parsep=2pt,
+  topsep=6pt,
+  font=\normalfont\bfseries
+}
+
+% ─── CODE LISTING FORMATTING ────────────────────────────────────────────────
+% FCI Cairo: Courier New 10pt for code
+\lstdefinestyle{ThesisCode}{
+  backgroundcolor=\color{CodeBG},
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{CodeKeyword}\bfseries,
+  stringstyle=\color{CodeString},
+  commentstyle=\color{CodeComment}\itshape,
+  numberstyle=\tiny\color{CodeNumber},
+  numbers=left,
+  numbersep=8pt,
+  frame=single,
+  rulecolor=\color{CodeFrame},
+  framesep=5pt,
+  xleftmargin=15pt,
+  xrightmargin=5pt,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=4,
+  captionpos=b,
+  columns=flexible,
+  keepspaces=true,
+  escapeinside={(*@}{@*)}
+}
+\lstset{style=ThesisCode}
+
+\lstdefinestyle{PythonCode}{style=ThesisCode, language=Python}
+\lstdefinestyle{BashCode}{style=ThesisCode, language=bash}
+
+\newcommand{\code}[1]{\texttt{\small #1}}
+
+% ─── ALGORITHM / PSEUDOCODE FORMATTING ──────────────────────────────────────
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+\floatname{algorithm}{Algorithm}
+\renewcommand{\algorithmiccomment}[1]{\hfill$\triangleright$ \textit{#1}}
+
+% ─── MATHEMATICS FORMATTING ─────────────────────────────────────────────────
+% Per-chapter equation numbering: (3.1), (3.2) — MIT, Oxford, Springer standard
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\KL}{KL}
+\DeclareMathOperator{\softmax}{softmax}
+\DeclareMathOperator{\sigmoid}{sigmoid}
+\DeclareMathOperator{\ReLU}{ReLU}
+
+% Math shortcuts
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\inner}[2]{\left\langle #1,\, #2 \right\rangle}
+\newcommand{\condbar}{\,\vert\,}
+\newcommand{\bigO}{\mathcal{O}}
+
+\numberwithin{equation}{chapter}
+
+% ─── CALLOUT BOXES ──────────────────────────────────────────────────────────
+% Use sparingly — academic theses prefer inline text over boxes
+% But useful for: definitions, key findings, warnings
+
+\newtcolorbox{notebox}[1][Note]{%
+  colback=NoteBoxBG,
+  colframe=NoteBoxFrame,
+  fonttitle=\bfseries\sffamily,
+  title=#1,
+  boxrule=0.8pt,
+  arc=2pt,
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  before skip=10pt, after skip=10pt
+}
+
+\newtcolorbox{warningbox}[1][Warning]{%
+  colback=WarningBoxBG,
+  colframe=WarningBoxFrame,
+  fonttitle=\bfseries\sffamily,
+  title=#1,
+  boxrule=0.8pt,
+  arc=2pt,
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  before skip=10pt, after skip=10pt
+}
+
+\newtcolorbox{importantbox}[1][Important]{%
+  colback=ImportantBoxBG,
+  colframe=ImportantBoxFrame,
+  fonttitle=\bfseries\sffamily,
+  title=#1,
+  boxrule=0.8pt,
+  arc=2pt,
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  before skip=10pt, after skip=10pt
+}
+
+\newtcolorbox{definitionbox}[1][Definition]{%
+  colback=NoteBoxBG,
+  colframe=ThesisBlue,
+  fonttitle=\bfseries\sffamily\color{white},
+  coltitle=white,
+  colbacktitle=ThesisBlue,
+  title=#1,
+  boxrule=0.8pt,
+  arc=2pt,
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  before skip=10pt, after skip=10pt
+}
+
+% ─── CROSS-REFERENCE COMMANDS ───────────────────────────────────────────────
+% Friendly references — universal academic style
+\newcommand{\reffig}[1]{Figure~\ref{#1}}
+\newcommand{\reftab}[1]{Table~\ref{#1}}
+\newcommand{\refeq}[1]{Equation~\ref{#1}}
+\newcommand{\refch}[1]{Chapter~\ref{#1}}
+\newcommand{\refsec}[1]{Section~\ref{#1}}
+\newcommand{\refalg}[1]{Algorithm~\ref{#1}}
+\newcommand{\refapp}[1]{Appendix~\ref{#1}}
+\newcommand{\reflst}[1]{Listing~\ref{#1}}
+\newcommand{\refpage}[1]{page~\pageref{#1}}
+
+% ─── UTILITY COMMANDS ───────────────────────────────────────────────────────
+\newcommand{\pct}[1]{#1\%}
+\newcommand{\metric}[2]{\textbf{#1}\,=\,#2}
+
+% ─── COVER PAGE ─────────────────────────────────────────────────────────────
+% FCI Cairo style: University name, Faculty, Department, Title, Author, Supervisor
+\newcommand{\MakeCoverPage}{%
+  \begin{titlepage}
+    \centering
+    \vspace*{0.5cm}
+
+    {\scshape\LARGE \UniversityFullEN \par}
+    \vspace{0.3cm}
+    {\scshape\Large \UniversityNameEN \par}
+    \vspace{0.2cm}
+    {\scshape\large \DepartmentNameEN \par}
+
+    \vspace{2cm}
+
+    {\fontsize{18pt}{21.6pt}\selectfont\bfseries \ThesisTitle \par}
+
+    \vspace{1.5cm}
+
+    {\Large Graduation Project Thesis\par}
+
+    \vspace{2cm}
+
+    \begin{minipage}{0.45\textwidth}
+      \begin{flushleft}\large
+        \textbf{Submitted by:}\\
+        \AuthorName
+      \end{flushleft}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+      \begin{flushright}\large
+        \textbf{Supervised by:}\\
+        \SupervisorName
+      \end{flushright}
+    \end{minipage}
+
+    \vfill
+
+    {\large \AcademicYear\par}
+
+  \end{titlepage}
+}
+
+% ─── ABSTRACT PAGE ──────────────────────────────────────────────────────────
+% FCI: Arabic abstract first, then English (or vice versa per department)
+\newcommand{\MakeAbstractPage}[2]{%
+  \chapter*{Abstract}
+  \addcontentsline{toc}{chapter}{Abstract}
+  #1
+  \vfill
+  \ifthenelse{\equal{#2}{}}{}{%
+    \newpage
+    \chapter*{الملخص}
+    \addcontentsline{toc}{chapter}{الملخص}
+    #2
+  }
+}
+
+% ─── ACKNOWLEDGMENTS ────────────────────────────────────────────────────────
+\newcommand{\MakeAcknowledgmentsPage}[1]{%
+  \chapter*{Acknowledgments}
+  \addcontentsline{toc}{chapter}{Acknowledgments}
+  #1
+}
+
+% ─── DEDICATION ─────────────────────────────────────────────────────────────
+\newcommand{\MakeDedicationPage}[1]{%
+  \vspace*{\fill}
+  \begin{center}
+    \textit{\Large #1}
+  \end{center}
+  \vspace*{\fill}
+}
+
+% ─── APPENDIX FORMATTING ────────────────────────────────────────────────────
+% APA: labeled Appendix A, Appendix B; each on new page
+% FCI: similar structure
+\renewcommand{\appendixname}{Appendix}
+
+% ─── BIBLIOGRAPHY FORMATTING ────────────────────────────────────────────────
+% IEEE style for CS departments (FCI, Ain Shams, MIT EECS)
+\defbibheading{bibliography}{%
+  \chapter*{Bibliography}%
+  \addcontentsline{toc}{chapter}{Bibliography}%
+}
+
+% ─── FRONT MATTER / MAIN MATTER ─────────────────────────────────────────────
+% MIT/Oxford/Cambridge standard:
+%   Front matter: Roman numerals (i, ii, iii, ...)
+%   Main matter:  Arabic numerals (1, 2, 3, ...)
+%   Chapter 1 starts at page 1
+\makeatletter
+\renewcommand\frontmatter{%
+  \cleardoublepage
+  \pagenumbering{roman}
+}
+
+\renewcommand\mainmatter{%
+  \cleardoublepage
+  \pagenumbering{arabic}
+}
+
+\renewcommand\backmatter{%
+  \cleardoublepage
+  \setcounter{chapter}{0}%
+}
+\makeatother
+
+% ─── DRAFT MARKERS ──────────────────────────────────────────────────────────
+\newif\ifdraft
+\drafttrue                              % set to \draftfalse for final version
+
+\ifdraft
+  \newcommand{\todo}[1]{\textcolor{ThesisRed}{\bfseries[TODO: #1]}}
+  \newcommand{\FIXME}[1]{\textcolor{ThesisRed}{\bfseries[FIXME: #1]}}
+  \newcommand{\CITE}[1]{\textcolor{ThesisOrange}{\bfseries[CITE: #1]}}
+\else
+  \newcommand{\todo}[1]{}
+  \newcommand{\FIXME}[1]{}
+  \newcommand{\CITE}[1]{\cite{#1}}
+\fi
+
+% ─── ORPHAN / WIDOW PREVENTION ──────────────────────────────────────────────
+% Chicago/Oxford: avoid orphan/widow lines
+\clubpenalty=10000
+\widowpenalty=10000
+\emergencystretch=1em
+\tolerance=200
+\setlength{\emergencystretch}{3em}
+
+% ─── HYPHENATION EXCEPTIONS ─────────────────────────────────────────────────
+\hyphenation{
+  fine-tun-ing
+  know-ledge
+  distil-la-tion
+  eval-ua-tion
+  pre-train-ed
+  multi-ple
+  parameter
+  hyper-parameter
+  archi-tec-ture
+}
+
+% ─── SI UNIT FORMATTING ─────────────────────────────────────────────────────
+\sisetup{
+  detect-all,
+  group-separator={,},
+  group-minimum-digits=4,
+  per-mode=symbol
+}
+
+% =============================================================================
+% FORMATTING DECISIONS LOG — Based on Cross-Source Research
+% =============================================================================
+%
+% | Decision              | Chosen Value       | Sources Supporting It          |
+% |-----------------------|--------------------|--------------------------------|
+% | Page size             | A4                 | Oxford, Cambridge, Cairo, FCI  |
+% | Inner margin          | 3.5cm              | FCI (3cm), MIT (1.5"), avg     |
+% | Outer margin          | 2.5cm              | FCI, Egyptian Council          |
+% | Body font             | TNR 12pt           | ALL sources agree              |
+% | Line spacing          | 1.5                | FCI, Cambridge, Oxford         |
+% | Paragraph indent      | 12.7mm (0.5")      | APA, Chicago, FCI              |
+% | Chapter heading       | 16pt bold centered | FCI, Oxford, Cambridge         |
+% | Section heading       | 14pt bold left     | FCI standard                   |
+% | Subsection heading    | 12pt bold left     | FCI, APA L3                    |
+% | Table rules           | 3 only (booktabs)  | APA 7th, ALL academic stds     |
+% | Table caption         | Above table        | APA, IEEE, ACM, ALL sources    |
+% | Figure caption        | Below figure       | APA, IEEE, ACM, ALL sources    |
+% | Equation numbering    | Per chapter        | MIT, Oxford, Springer          |
+% | Figure numbering      | Per chapter        | MIT, Oxford, FCI               |
+% | Bibliography style    | IEEE               | FCI CS dept, ACM, MIT EECS     |
+% | Front matter pages    | Roman numerals     | MIT, Oxford, Cambridge, FCI    |
+% | Main matter pages     | Arabic numerals    | ALL sources agree              |
+% | TOC depth             | 3 levels           | Oxford, Cambridge              |
+% | Secnum depth          | 4 levels           | Standard for theses            |
+%
+% =============================================================================
+
+% =============================================================================
+% END OF FORMATTING FILE v2
+% =============================================================================
